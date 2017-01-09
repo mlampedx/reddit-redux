@@ -25,11 +25,14 @@
   "homepage": "https://github.com/mlampedx/reddit-redux#readme",
   "dependencies": {
     "babel-core": "^6.21.0",
+    "babel-polyfill": "^6.20.0",
     "express": "^4.14.0",
+    "isomorphic-fetch": "^2.2.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-hot-loader": "^1.3.1",
-    "redux": "^3.6.0"
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.1.0"
   },
   "devDependencies": {
     "babel": "^6.5.2",
