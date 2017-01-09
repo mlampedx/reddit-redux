@@ -1,3 +1,5 @@
+import fetch from 'isomorphic-fetch';
+import { dispatch, getState } from './../store';
 import * as types from './ActionTypes';
 
 export function selectSubreddit(subreddit) {
@@ -27,5 +29,29 @@ export function receivePosts(subreddit, json) {
     subreddit,
     posts: json.data.children.map(child => child.data),
     receivedAt: Date.now(),
+  }
+}
+
+export function fetchPosts(subreddit) {
+  return (dispatch) => {
+    dispatch(requestPosts(subreddit));
+    return fetch(`https://www.reddit.com/r/${subreddit}.json`)
+      .then(res => res.json())
+      .then(json => dispatch(receivePosts(subreddit, json)));
+  }
+}
+
+function shouldFetchPosts(state, subreddit) {
+  const posts = state.postsBySubreddit[subreddit];
+  if (!posts) {
+    return true;
+  } else if (posts.isFetching) {
+    return false;
+  } else { return posts.didInvalidate; }
+}
+
+export function fetchPostsIfNeeded(subreddit) {
+  return (dispatch) => {
+    
   }
 }
