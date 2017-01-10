@@ -4,7 +4,10 @@
   "description": "Reddit headline fetching application built with React, Redux, Node.js, and Express.",
   "main": "webpack.config.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "nodemon ./server/server.js",
+    "dev": "webpack-dev-server --inline --hot",
+    "build": "webpack -w"
   },
   "repository": {
     "type": "git",
