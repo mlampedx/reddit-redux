@@ -51,7 +51,10 @@ function shouldFetchPosts(state, subreddit) {
 }
 
 export function fetchPostsIfNeeded(subreddit) {
-  return (dispatch) => {
-    
+  return (dispatch, getState) => {
+    if (shouldFetchPosts(getState(), subreddit)) {
+      return dispatch(fetchPosts(subreddit));
+    }
+    else { return Promise.resolve(); }
   }
 }
