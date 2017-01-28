@@ -1,7 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'redux';
+import { connect } from 'react-redux';
+import AppBar from 'material-ui/AppBar';
+import Subheader from 'material-ui/Subheader';
+import RefreshIndicator from 'material-ui/RefreshIndicator';
 import { selectedSubreddit, fetchPostsIfNeeded, invalidateSubreddit } from './../actions';
-import { Selector, Posts } from './index';
+import Posts from './Posts';
+import Selector from './Selector';
 
 class App extends Component {
   constructor(props) {
@@ -23,6 +27,7 @@ class App extends Component {
   }
   
   handleChange(nextSubreddit) {
+    console.log('nextSubreddit', nextSubreddit)
     this.props.dispatch(selectedSubreddit(nextSubreddit));
     this.props.dispatch(fetchPostsIfNeeded(nextSubreddit));
   }
@@ -37,28 +42,60 @@ class App extends Component {
 
   render() {
     const { selectedSubreddit, posts, isFetching, lastUpdated } = this.props;
+    console.log('rendering posts', posts.length, posts)
 
     return (
       <div>
-        <Selector value = {selectedSubreddit}
-                  onChange = {this.handleChange}
-                  options={[ 'reactjs', 'reduxjs', 'frontend', 'nodejs', 'backend']} />
+        <AppBar
+          title={`Reddit Headlines - ${selectedSubreddit}`}
+          iconElementRight={
+            <Selector value = {selectedSubreddit}
+              onChange = {this.handleChange}
+              options={[ 'reactjs', 'reduxjs', 'frontend', 'nodejs', 'backend']} 
+            />
+          }
+          style={{ 
+            backgroundColor: '#cee3f8',
+          }}
+          titleStyle={{
+            color: 'gray',
+          }}
+        />
         <p>
           {lastUpdated &&
-            <span>
+            <Subheader>
               Last updated at {new Date(lastUpdated).toLocaleTimeString()}.
               {' '}
-            </span>
+            </Subheader>
           }
           {!isFetching &&
-            <a href='#'
-              onClick = {this.handleRefreshClick}>
-              Refresh
-            </a>
+           <RefreshIndicator
+             percentage={90}
+             color="#cee3f8"
+             size={40}
+             onClick = {this.handleRefreshClick}
+             left={10}
+             top={0}
+             status="ready"
+             style={{
+               display: 'inline-block',
+               position: 'relative',
+             }}
+            />
           }
         </p>
         {isFetching && posts.length === 0 && 
-          <h2>Loading...</h2>
+          <RefreshIndicator
+            loadingColor="#cee3f8"
+            size={40}
+            left={10}
+            top={0}
+            status="loading"
+            style={{
+              display: 'inline-block',
+              position: 'relative',
+            }}
+    />
         }
         {!isFetching && posts.length === 0 && 
           <h2>Empty.</h2>
@@ -82,6 +119,7 @@ App.propTypes = {
 }
 
 function mapStateToProps(state) {
+  console.log('state', state)
   const { selectedSubreddit, postsBySubreddit } = state;
   const {
     isFetching,
