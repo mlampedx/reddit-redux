@@ -1,11 +1,9 @@
 import thunkMiddleware from 'redux-thunk';
-import { createStore, applyMiddleware } from 'redux';
-import { selectSubreddit, fetchPosts } from './../actions';
-import rootReducer from './../reducers';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { selectedSubreddit, postsBySubreddit } from './../reducers';
 
-export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+const rootReducer = combineReducers({selectedSubreddit, postsBySubreddit});
 
-store.dispatch(selectSubreddit('reactjs'));
-store.dispatch(fetchPosts('reactjs')).then(() => {
-  console.log(store.getState());
-});
+const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+
+export default store;
