@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch';
 import { dispatch, getState } from './../store';
 import * as types from './ActionTypes';
 
-export function selectSubreddit(subreddit) {
+export function selectedSubreddit(subreddit) {
   return {
     type: types.SELECT_SUBREDDIT,
     subreddit,
