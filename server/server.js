@@ -5,7 +5,7 @@ let app = express();
 app.use(express.static(path.join(__dirname, '../src')));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../src/index'));
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
 })
 
 app.get('/bundle.js', (req, res) => {
