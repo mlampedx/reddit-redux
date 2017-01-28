@@ -1,12 +1,11 @@
 import React, { PropTypes } from 'react';
+import {List, ListItem} from 'material-ui/List';
 
 export default function Posts({ posts }) {
   return (
-    <ul>
-      {posts.map((post, i) => {
-        <li key = {i}>{post.title}</li>
-      })}
-    </ul>
+    <List
+      children={posts.map((post, i) => <a href={post.url}><ListItem key={i} primaryText={post.title} /></a>)}
+    />
   );
 };
 
